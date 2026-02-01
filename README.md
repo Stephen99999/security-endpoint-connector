@@ -47,8 +47,15 @@ I used Zod for runtime environment and schema validation.
 
 Reasoning: It is safer for a security tool to crash immediately on a missing configuration than to attempt to run with partial or insecure settings.
 
-### 4.Known Limitations & Assumptions
+### 4. Security Protocols
+Credential Protection: Secrets are managed via .env (excluded from Git) and validated at the edge.
 
-Pagination: This demo implements a basic limit of 10 detections. For production, a recursive pagination loop using the after token would be required.
+OAuth2 Flow: Implemented standard OAuth2 token exchange with secure header handling (Authorization: Bearer <token>).
 
-Real-time Processing: This connector operates on a polling basis. For the Lucid production environment, I would recommend transitioning to Falcon Streaming APIs or Webhooks for sub-second threat response.
+Type Safety: TypeScript is used throughout to eliminate runtime type-confusion errors.
+
+### 5. Known Limitations & Assumptions
+
+Polling vs. Real-time: This is a pull-based connector. For a "Lucid Response Workflow," I would transition this to a Webhook listener for sub-second latency.
+
+Assumptions: It is assumed the provided API Client has at least Alerts: Read and Detections: Read scopes.
